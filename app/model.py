@@ -8,7 +8,9 @@ class EmbeddingModel:
         )
 
         # Text model
-        self.text_model = TextEmbedding()  # defaults to BAAI/bge-small-en-v1.5
+        self.text_model = TextEmbedding(
+            model_name="Qdrant/clip-ViT-B-32-text"
+        )
 
     def embed_images(self, image_paths):
         return list(self.image_model.embed(image_paths))
