@@ -17,10 +17,13 @@ HEADERS = {
     "Connection": "keep-alive",
 }
 
-app = FastAPI()
-
 class EmbedRequest(BaseModel):
     image_urls: List[HttpUrl]
+    
+class TextEmbedRequest(BaseModel):
+    texts: List[str]
+    
+app = FastAPI()
 
 @app.get("/health")
 async def health_check():
@@ -57,7 +60,7 @@ def embed_images(request: EmbedRequest):
             temp_paths.append(temp_file.name)
 
         # Generate embeddings
-        embeddings = embedding_model.embed(temp_paths)
+        embeddings = embedding_model.embed_images(temp_paths)
 
         return {
             "embeddings": [emb.tolist() for emb in embeddings]
@@ -68,3 +71,14 @@ def embed_images(request: EmbedRequest):
         for path in temp_paths:
             if os.path.exists(path):
                 os.remove(path)
+                
+@app.post("/embed-text")
+def embed_text(request: TextEmbedRequest):
+    if not request.texts:
+        raise HTTPException(status_code=400, detail="No texts provided")
+
+    embeddings = embedding_model.embed_texts(request.texts)
+
+    return {
+        "embeddings": [emb.tolist() for emb in embeddings],
+    }

@@ -1,11 +1,20 @@
-from fastembed import ImageEmbedding
+from fastembed import ImageEmbedding, TextEmbedding
 
 class EmbeddingModel:
     def __init__(self):
-        self.model = ImageEmbedding(model_name="Qdrant/clip-ViT-B-32-vision")
+        # Image model
+        self.image_model = ImageEmbedding(
+            model_name="Qdrant/clip-ViT-B-32-vision"
+        )
 
-    def embed(self, images):
-        return list(self.model.embed(images))
+        # Text model
+        self.text_model = TextEmbedding()  # defaults to BAAI/bge-small-en-v1.5
+
+    def embed_images(self, image_paths):
+        return list(self.image_model.embed(image_paths))
+
+    def embed_texts(self, texts):
+        return list(self.text_model.embed(texts))
 
 
 # Singleton instance
