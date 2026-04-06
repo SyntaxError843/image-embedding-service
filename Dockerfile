@@ -18,7 +18,7 @@ COPY app ./app
 
 # Preload model (optional but recommended)
 RUN python -c "from fastembed import ImageEmbedding; ImageEmbedding(model_name='Qdrant/clip-ViT-B-32-vision')"
-RUN python -c "from fastembed import ImageEmbedding; ImageEmbedding(model_name='Qdrant/clip-ViT-B-32-text')"
+RUN python -c "from fastembed import TextEmbedding; TextEmbedding(model_name='Qdrant/clip-ViT-B-32-text')"
 
 EXPOSE 8234
 
