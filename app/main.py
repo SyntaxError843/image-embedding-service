@@ -22,6 +22,9 @@ app = FastAPI()
 class EmbedRequest(BaseModel):
     image_urls: List[HttpUrl]
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
 
 @app.post("/embed")
 def embed_images(request: EmbedRequest):
