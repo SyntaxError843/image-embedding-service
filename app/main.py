@@ -37,7 +37,7 @@ def embed_images(request: EmbedRequest):
             if response.status_code != 200:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"Failed to download image: {url}"
+                    detail=f"Failed to download image: {url} {response.text}"
                 )
                 
             if int(response.headers.get("content-length", 0)) > MAX_IMAGE_SIZE:
